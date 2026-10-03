@@ -8,14 +8,21 @@
  */
 public class Medidor {
 
-    // TODO: declaren aqui los atributos (private)
+    private String id;
+    private double lecturaAnterior;
+    private double lecturaActual;
 
     /**
      * Constructor principal. Guarda el id y deja lecturaAnterior = lecturaActual = lecturaInicial.
      * Si lecturaInicial < 0 debe lanzar: throw new IllegalArgumentException("Lectura invalida");
      */
     public Medidor(String id, double lecturaInicial) {
-        // TODO
+        if (lecturaInicial < 0) {
+            throw new IllegalArgumentException("Lectura invalida");
+        }
+        this.id = id;
+        this.lecturaAnterior = lecturaInicial;
+        this.lecturaActual = lecturaInicial;
     }
 
     /**
@@ -23,17 +30,15 @@ public class Medidor {
      * Debe DELEGAR en el otro constructor usando this(...).
      */
     public Medidor(String id) {
-        // TODO
+        this(id, 0);
     }
 
     public String getId() {
-        // TODO
-        return null;
+        return id;
     }
 
     public double getLecturaActual() {
-        // TODO
-        return 0;
+        return lecturaActual;
     }
 
     /**
@@ -42,19 +47,22 @@ public class Medidor {
      * de lecturaActual, lecturaActual toma nuevaLectura, y devuelve true.
      */
     public boolean registrarLectura(double nuevaLectura) {
-        // TODO
-        return false;
+        if (nuevaLectura < lecturaActual) {
+            return false;
+        }
+
+        lecturaAnterior = lecturaActual;
+        lecturaActual = nuevaLectura;
+        return true;
     }
 
     /** Consumo del ultimo periodo: lecturaActual - lecturaAnterior. */
     public double consumoKwh() {
-        // TODO
-        return 0;
+        return lecturaActual - lecturaAnterior;
     }
 
     /** Monto a pagar: usa Calculos.calcularCosto(...) con el consumo del ultimo periodo. */
     public double calcularFactura() {
-        // TODO
-        return 0;
+        return Calculos.calcularCosto(consumoKwh());
     }
 }
